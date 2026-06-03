@@ -20,8 +20,12 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
+    if (!response.ok) {
+      console.error("Anthropic API error:", JSON.stringify(data));
+    }
     return res.status(response.status).json(data);
   } catch (error) {
+    console.error("Handler error:", error.message);
     return res.status(500).json({ error: error.message });
   }
 }
